@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario Seguro</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+    button { padding: 10px 20px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <h2>Registro de Usuario</h2>
+  <p>Solo se permiten los siguientes caracteres:<br><strong>A-Z, a-z, 0-9, *, @, -, _, #, |, {, }, [, ], (, )</strong></p>
+
+  <form id="formulario" onsubmit="return validarCampos()">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" placeholder="Ej. Alonso_22" />
+
+    <label for="correo">Correo:</label>
+    <input type="text" id="correo" placeholder="Ej. alonso@ejemplo.com" />
+
+    <label for="telefono">Teléfono:</label>
+    <input type="text" id="telefono" placeholder="Ej. 4491234567" />
+
+    <label for="descripcion">Descripción o comentario:</label>
+    <textarea id="descripcion" rows="4" placeholder="Describe brevemente..."></textarea>
+
+    <label for="contrasena">Contraseña:</label>
+    <input type="password" id="contrasena" placeholder="Ej. S3gur0@2025" />
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    function validarCampos() {
+      const campos = ["nombre", "correo", "telefono", "descripcion", "contrasena"];
+      const permitido = /^[A-Za-z0-9*@\-_|{}\[\]\(\)#]+$/;
+      const noPermitido = /[^A-Za-z0-9*@\-_|{}\[\]\(\)#]/g;
+
+      let caracteresInvalidos = [];
+
+      campos.forEach(id => {
+        const valor = document.getElementById(id).value;
+        const encontrados = valor.match(noPermitido);
+        if (encontrados) {
+          caracteresInvalidos = caracteresInvalidos.concat(encontrados);
+        }
+      });
+
+      if (caracteresInvalidos.length > 0) {
+        const únicos = [...new Set(caracteresInvalidos)];
+        alert("Caracteres no válidos detectados:\n\n" + únicos.join(" "));
+        return false;
+      } else {
+        alert("¡Formulario válido! Gracias por tu registro.");
+        return true;
+      }
+    }
+  </script>
+
+</body>
+</html>
